@@ -1,0 +1,18 @@
+python-dotenv==1.0.1
+requests==2.32.3
+APScheduler==3.10.4
+pytz==2024.2
+moviepy==2.1.1
+numpy>=2.1.0,<3
+# pydub removed due to Python 3.13 audioop deprecation
+# Gemini (Google Generative AI)
+google-generativeai==0.7.2
+# YouTube Data API
+google-api-python-client==2.147.0
+google-auth==2.35.0
+google-auth-oauthlib==1.2.1
+google-auth-httplib2==0.2.0
+# ElevenLabs
+elevenlabs==1.7.0
+# Google Cloud Text-to-Speech (optional)
+google-cloud-texttospeech==2.20.0
