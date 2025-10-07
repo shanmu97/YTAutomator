@@ -62,7 +62,7 @@ def pick_trending_topic(category: str, language: str) -> str:
 
 def generate_script(topic: str, language: str, content_style: str = "default") -> Dict[str, List[Dict[str, str]]]:
     model = _get_model()
-    style_prompt = SYSTEM_PROMPT
+    style_prompt = SCIENCE_FACT_PROMPT
 
     prompt = (
         f"{style_prompt}\n\n"
