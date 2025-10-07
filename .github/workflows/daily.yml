@@ -2,9 +2,7 @@ name: Daily YTAutomator
 
 on:
   schedule:
-    # Runs at multiple times (converted to UTC for America/New_York timezone):
-    # 9:00  local -> 13:00 UTC, 12:00 -> 16:00, 14:00 -> 18:00, 19:00 -> 23:00, 22:00 -> 02:00
-    - cron: '0 13 * * *'
+    - cron: '0 13 * * *'  # 9:00 AM local (example)
     - cron: '0 16 * * *'
     - cron: '0 18 * * *'
     - cron: '0 23 * * *'
@@ -30,22 +28,22 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ffmpeg
 
-      - name: Restore credentials (from base64 secrets)
+      - name: Restore credentials
         env:
-          CLIENT_SECRET_B64: ${{ secrets.CLIENT_SECRET_JSON_B64 }}
-          TOKEN_JSON_B64: ${{ secrets.TOKEN_JSON_B64 }}
+          CLIENT_SECRET_JSON: ${{ secrets.CLIENT_SECRET_JSON }}
+          TOKEN_JSON: ${{ secrets.TOKEN_JSON }}
         run: |
-          if [ -n "$CLIENT_SECRET_B64" ]; then
-            echo "$CLIENT_SECRET_B64" | base64 --decode > client_secret.json
-            echo "Wrote client_secret.json"
+          if [ -n "$CLIENT_SECRET_JSON" ]; then
+            echo "$CLIENT_SECRET_JSON" > client_secret.json
+            echo "✅ Wrote client_secret.json"
           else
-            echo "CLIENT_SECRET_JSON_B64 not set, skipping client_secret.json"
+            echo "⚠️ CLIENT_SECRET_JSON not set, skipping client_secret.json"
           fi
-          if [ -n "$TOKEN_JSON_B64" ]; then
-            echo "$TOKEN_JSON_B64" | base64 --decode > token.json
-            echo "Wrote token.json"
+          if [ -n "$TOKEN_JSON" ]; then
+            echo "$TOKEN_JSON" > token.json
+            echo "✅ Wrote token.json"
           else
-            echo "TOKEN_JSON_B64 not set, skipping token.json"
+            echo "⚠️ TOKEN_JSON not set, skipping token.json"
           fi
 
       - name: Install Python deps
@@ -55,11 +53,9 @@ jobs:
 
       - name: Run pipeline
         env:
-          # Add any API keys your project needs as repository secrets and map them here
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          # If your code expects different env names, add them accordingly
         run: |
           python main.py --run-once
 
